@@ -15,9 +15,6 @@ width = 500
 height = 500
 
 spheres = [
-  # Sphere.new(Vector[233.0, 290.0, 0.0], 100.0, Material[1.0, 1.0, 0.0, 0.5]),
-  # Sphere.new(Vector[407.0, 290.0, 0.0], 100.0, Material[0.0, 1.0, 1.0, 0.5]),
-  # Sphere.new(Vector[320.0, 140.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5])
   Sphere.new(Vector[100.0, 100.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5]),
   Sphere.new(Vector[-100.0, 100.0, 0.0], 100.0, Material[0.0, 0.0, 1.0, 0.5]),
   Sphere.new(Vector[-100.0, -100.0, 0.0], 100.0, Material[1.0, 1.0, 1.0, 0.8]),
@@ -25,17 +22,13 @@ spheres = [
 ]
 
 lights = [
-  Light.new(Vector[500.0, 500.0, -500.0], Color[1.0, 1.0, 1.0]),
-  Light.new(Vector[-500.0, 500.0, -500.0], Color[1.0, 1.0, 1.0])
+  Light.new(Vector[500.0, 500.0, 500.0], Color[1.0, 1.0, 1.0]),
+  Light.new(Vector[-500.0, 500.0, 500.0], Color[1.0, 1.0, 1.0])
 ]
 
-
-# sphere = Sphere.new(Vector[0.0, 0.0, 0.0], 100.0)
-# ray = Ray.new(Vector[10.0, 0.0, -1000.0], Vector[0.0, 0.0, 1.0])
-# puts sphere.intersection?(ray, 2000.0)
-# exit
-
 img = Image.new(width, height) { self.background_color = 'black' }
+eye = Vector[0.0, 0.0, 1000.0]
+plane = 200.0
 
 img.view(0, 0, width, height) do |view|
 
@@ -45,7 +38,7 @@ img.view(0, 0, width, height) do |view|
       coef = 1.0
       level = 0 
       red = green = blue = 0.0
-      ray = Ray.new(Vector[x.to_f-width/2.0, height/2.0-y.to_f, -1000.0], Vector[0.0, 0.0, 1.0])
+      ray = Ray.new(eye, Vector[x.to_f-width/2.0, height/2.0-y.to_f, plane]-eye)
 
       begin
         t = 2000.0
