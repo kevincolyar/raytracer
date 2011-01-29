@@ -10,8 +10,8 @@ require 'vector'
 require 'material'
 
 include Magick
-width = 400
-height = 400
+width = 640
+height = 480
 
 spheres = [
   Sphere.new(Vector[233.0, 290.0, 0.0], 100.0, Material[1.0, 1.0, 0.0, 0.5]),
@@ -97,15 +97,16 @@ img.view(0, 0, width, height) do |view|
           end
         end
 
-        # coef *= current_sphere.material.reflection
-        # reflection = 2.0 * (ray.direction.dot(intersection_normal))
-        # ray.position = intersection_position
-        # ray.direction = ray.direction - intersection_normal*current_sphere.material.reflection
+        coef *= current_sphere.material.reflection
+        reflection = 2.0 * (ray.direction.dot(intersection_normal))
+        ray.position = intersection_position
+        ray.direction = ray.direction - intersection_normal*reflection
 
-        level += 10
+        level += 1
       end while ((coef > 0.0) && (level < 10))
 
-      # puts "#{x}, #{y}  => #{red}, #{green}, #{blue}" if red 
+      # puts "#{x}, #{y}  => #{red}, #{green}, #{blue}" 
+
       red = [red, 1.0].min
       green = [green, 1.0].min
       blue = [blue, 1.0].min
@@ -116,5 +117,5 @@ img.view(0, 0, width, height) do |view|
 
 end
 
-  img.write('image.png')
+img.write('image.png')
 
