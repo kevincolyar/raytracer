@@ -22,5 +22,9 @@ class Ray
     @color.b
   end
 
+  def x; @position.x; end
+  def y; @position.y; end
+  def z; @position.z; end
+
 end
 

@@ -11,20 +11,22 @@ require './material'
 require './color'
 
 include Magick
-width = 640
-height = 480
+width = 500
+height = 500
 
 spheres = [
-  Sphere.new(Vector[233.0, 290.0, 0.0], 100.0, Material[1.0, 1.0, 0.0, 0.5]),
-  Sphere.new(Vector[407.0, 290.0, 0.0], 100.0, Material[0.0, 1.0, 1.0, 0.5]),
-  Sphere.new(Vector[320.0, 140.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5])
-  # Sphere.new(Vector[100.0, 100.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5])
+  # Sphere.new(Vector[233.0, 290.0, 0.0], 100.0, Material[1.0, 1.0, 0.0, 0.5]),
+  # Sphere.new(Vector[407.0, 290.0, 0.0], 100.0, Material[0.0, 1.0, 1.0, 0.5]),
+  # Sphere.new(Vector[320.0, 140.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5])
+  Sphere.new(Vector[100.0, 100.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5]),
+  Sphere.new(Vector[-100.0, 100.0, 0.0], 100.0, Material[0.0, 0.0, 1.0, 0.5]),
+  Sphere.new(Vector[-100.0, -100.0, 0.0], 100.0, Material[1.0, 1.0, 1.0, 0.8]),
+  Sphere.new(Vector[100.0, -100.0, 0.0], 100.0, Material[0.0, 1.0, 0.0, 0.2])
 ]
 
 lights = [
-  Light.new(Vector[0.0, 240.0, -100.0], Color[1.0, 1.0, 1.0]),
-  Light.new(Vector[640.0, 240.0, -10000.0], Color[0.6, 0.7, 1.0])
-  # Light.new(Vector[-640.0, 240.0, -10000.0], Color[0.6, 0.7, 1.0])
+  Light.new(Vector[500.0, 500.0, -500.0], Color[1.0, 1.0, 1.0]),
+  Light.new(Vector[-500.0, 500.0, -500.0], Color[1.0, 1.0, 1.0])
 ]
 
 
@@ -43,7 +45,7 @@ img.view(0, 0, width, height) do |view|
       coef = 1.0
       level = 0 
       red = green = blue = 0.0
-      ray = Ray.new(Vector[x.to_f, y.to_f, -1000.0], Vector[0.0, 0.0, 1.0])
+      ray = Ray.new(Vector[x.to_f-width/2.0, height/2.0-y.to_f, -1000.0], Vector[0.0, 0.0, 1.0])
 
       begin
         t = 2000.0
