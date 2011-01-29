@@ -1,7 +1,12 @@
-class Material < Color
+class Material 
   
-  attr_accessor :reflection
+  attr_accessor :diffuse, :specular, :reflection, :power
 
-  def reflection; self[3]; end
+  def initialize(diffuse, reflection, specular, power)
+    @diffuse = diffuse
+    @reflection = reflection
+    @specular = specular
+    @power = power
+  end
 
 end

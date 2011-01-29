@@ -15,10 +15,10 @@ width = 500
 height = 500
 
 spheres = [
-  Sphere.new(Vector[100.0, 100.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5]),
-  Sphere.new(Vector[-100.0, 100.0, 0.0], 100.0, Material[0.0, 0.0, 1.0, 0.5]),
-  Sphere.new(Vector[-100.0, -100.0, 0.0], 100.0, Material[1.0, 1.0, 1.0, 0.8]),
-  Sphere.new(Vector[100.0, -100.0, 0.0], 100.0, Material[0.0, 1.0, 0.0, 0.2])
+  Sphere.new(Vector[100.0, 100.0, 0.0],  100.0, Material.new(Color[1.0, 0.0, 1.0], 0.5, Color[1.0, 1.0, 1.0], 60)),
+  Sphere.new(Vector[-100.0, 100.0, 0.0], 100.0, Material.new(Color[0.0, 0.0, 1.0], 0.5, Color[1.0, 1.0, 1.0], 60)),
+  Sphere.new(Vector[-100.0, -100.0, 0.0], 100.0, Material.new(Color[1.0, 1.0, 1.0], 0.8, Color[1.0, 1.0, 1.0], 60)),
+  Sphere.new(Vector[100.0, -100.0, 0.0], 100.0, Material.new(Color[0.0, 1.0, 0.0], 0.2, Color[1.0, 1.0, 1.0], 60)),
 ]
 
 lights = [
@@ -87,9 +87,9 @@ img.view(0, 0, width, height) do |view|
 
           unless in_shadow == true
             lambert = light_ray.direction.dot(intersection_normal) * coef
-            red   += lambert * light.color.r * current_sphere.material.r
-            green += lambert * light.color.g * current_sphere.material.g
-            blue  += lambert * light.color.b * current_sphere.material.b
+            red   += lambert * light.color.r * current_sphere.material.diffuse.r
+            green += lambert * light.color.g * current_sphere.material.diffuse.g
+            blue  += lambert * light.color.b * current_sphere.material.diffuse.b
           end
         end
 
