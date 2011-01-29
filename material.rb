@@ -2,6 +2,6 @@ class Material < Color
   
   attr_accessor :reflection
 
-  def reflection; self[0]; end
+  def reflection; self[3]; end
 
 end

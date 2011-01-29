@@ -21,14 +21,14 @@ class Sphere
 
     if ((t0 > 0.1) && (t0 < t)) 
         t = t0
-        retvalue = t
+        retvalue = true
     end
     if ((t1 > 0.1) && (t1 < t)) 
         t = t1
-        retvalue = t
+        retvalue = true
     end
 
-    return t
+    return retvalue, t
   end
 end
 

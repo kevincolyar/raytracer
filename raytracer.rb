@@ -10,19 +10,20 @@ require 'vector'
 require 'material'
 
 include Magick
-width = 200
-height = 200
+width = 400
+height = 400
 
 spheres = [
-  # Sphere.new(Vector[233.0, 290.0, 0.0], 100.0),
-  # Sphere.new(Vector[407.0, 290.0, 0.0], 100.0),
-  # Sphere.new(Vector[320.0, 140.0, 0.0], 100.0)
-  sphere = Sphere.new(Vector[0.0, 0.0, 0.0], 100.0, Material[1.0, 1.0, 0.0, 0.5])
+  Sphere.new(Vector[233.0, 290.0, 0.0], 100.0, Material[1.0, 1.0, 0.0, 0.5]),
+  Sphere.new(Vector[407.0, 290.0, 0.0], 100.0, Material[0.0, 1.0, 1.0, 0.5]),
+  Sphere.new(Vector[320.0, 140.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5])
+  # Sphere.new(Vector[100.0, 100.0, 0.0], 100.0, Material[1.0, 0.0, 1.0, 0.5])
 ]
 
 lights = [
   Light.new(Vector[0.0, 240.0, -100.0], Color[1.0, 1.0, 1.0]),
   Light.new(Vector[640.0, 240.0, -10000.0], Color[0.6, 0.7, 1.0])
+  # Light.new(Vector[-640.0, 240.0, -10000.0], Color[0.6, 0.7, 1.0])
 ]
 
 
@@ -49,17 +50,18 @@ img.view(0, 0, width, height) do |view|
         current_sphere = nil
         spheres.each do |sphere|
           # current_sphere = sphere if sphere.intersection?(ray, t)
-          new_t = sphere.intersection?(ray, t)
-          if(new_t > 0.0)
+          p = sphere.intersection?(ray, t)
+          if(p[0] == true)
             current_sphere = sphere
-            t = new_t
+            t = p[1]
           end
+
         end
 
         break if current_sphere.nil?
 
         intersection_position = ray.position + (ray.direction*t)
-        intersection_normal = intersection_position - sphere.position
+        intersection_normal = intersection_position - current_sphere.position
 
         temp = intersection_normal.dot(intersection_normal)
         break if temp == 0.0
@@ -78,7 +80,12 @@ img.view(0, 0, width, height) do |view|
 
           in_shadow = false 
           spheres.each do |sphere|
-            in_shadow = sphere.intersection?(light_ray, t)
+            p = current_sphere.intersection?(light_ray, t)
+            if(p[0] == true)
+              in_shadow = true
+              t = p[1]
+            end
+
             break if in_shadow
           end
 
@@ -90,16 +97,19 @@ img.view(0, 0, width, height) do |view|
           end
         end
 
-        coef *= current_sphere.material.reflection
-        reflection = 2.0 * (ray.direction.dot(intersection_normal))
-        ray.position = intersection_position
-        ray.direction = ray.direction - intersection_normal*current_sphere.material.reflection
+        # coef *= current_sphere.material.reflection
+        # reflection = 2.0 * (ray.direction.dot(intersection_normal))
+        # ray.position = intersection_position
+        # ray.direction = ray.direction - intersection_normal*current_sphere.material.reflection
 
-        level += 1
+        level += 10
       end while ((coef > 0.0) && (level < 10))
 
-      puts "#{x.to_i}  => #{red}, #{green}, #{blue}" if red > 0
-      view[x.to_i][y.to_i] = Pixel.new(red*QuantumRange, green*QuantumRange, blue*QuantumRange)
+      # puts "#{x}, #{y}  => #{red}, #{green}, #{blue}" if red 
+      red = [red, 1.0].min
+      green = [green, 1.0].min
+      blue = [blue, 1.0].min
+      view[y.to_i][x.to_i] = Pixel.new(red*QuantumRange, green*QuantumRange, blue*QuantumRange)
 
     end
   end
