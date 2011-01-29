@@ -27,8 +27,8 @@ lights = [
 ]
 
 img = Image.new(width, height) { self.background_color = 'black' }
-eye = Vector[0.0, 0.0, 1000.0]
-plane = 200.0
+eye = Vector[0.0, 0.0, 500.0]
+plane = 100.0
 
 img.view(0, 0, width, height) do |view|
 
@@ -38,7 +38,7 @@ img.view(0, 0, width, height) do |view|
       coef = 1.0
       level = 0 
       red = green = blue = 0.0
-      ray = Ray.new(eye, Vector[x.to_f-width/2.0, height/2.0-y.to_f, plane]-eye)
+      ray = Ray.new(eye, (Vector[x.to_f-width/2.0, height/2.0-y.to_f, plane] - eye).normalized)
 
       begin
         t = 2000.0

@@ -12,5 +12,10 @@ class Vector
   def x; self[0]; end
   def y; self[1]; end
   def z; self[2]; end
+
+  def normalized
+    m = Math.sqrt(x*x + y*y + z*z)
+    Vector[x/m, y/m, z/m]
+  end
    
 end
