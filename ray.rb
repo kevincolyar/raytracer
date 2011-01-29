@@ -1,5 +1,5 @@
 require 'matrix'
-require 'color'
+require './color'
 
 class Ray
   attr_accessor :position, :direction, :color

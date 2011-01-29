@@ -3,11 +3,12 @@
 require 'rubygems'
 require 'RMagick'
 require 'matrix'
-require 'sphere'
-require 'light'
-require 'ray'
-require 'vector'
-require 'material'
+require './sphere'
+require './light'
+require './ray'
+require './vector'
+require './material'
+require './color'
 
 include Magick
 width = 640
