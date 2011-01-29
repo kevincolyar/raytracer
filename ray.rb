@@ -4,9 +4,9 @@ require 'color'
 class Ray
   attr_accessor :position, :direction, :color
 
-  def initialize(x, y)
-    @position = Vector[x, y, -1000]
-    @direction = Vector[0, 0, 1]
+  def initialize(position, direction)
+    @position = position
+    @direction = direction
     @color = Color[0,0,0]
   end
 
