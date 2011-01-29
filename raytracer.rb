@@ -90,6 +90,16 @@ img.view(0, 0, width, height) do |view|
             red   += lambert * light.color.r * current_sphere.material.diffuse.r
             green += lambert * light.color.g * current_sphere.material.diffuse.g
             blue  += lambert * light.color.b * current_sphere.material.diffuse.b
+
+
+           reflet = 2.0 * light_ray.direction.dot(intersection_normal)
+           phong_direction = light_ray.direction - intersection_normal*reflet
+           phong_term = [phong_direction.dot(ray.direction), 0.0].max
+           phong_term = 1.0 * phong_term**current_sphere.material.power * coef
+
+           red += phong_term * light.color.r
+           green += phong_term * light.color.g
+           blue += phong_term * light.color.b
           end
         end
 
