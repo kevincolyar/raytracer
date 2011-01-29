@@ -7,7 +7,7 @@ class RayTracer
 
         coef = 1.0
         level = 0 
-        red = green = blue = 0.0
+        pixel = Color[0, 0, 0]
         ray = Ray.new(scene.eye, (Vector[x.to_f-image.width/2.0, image.height/2.0-y.to_f, scene.plane] - scene.eye).normalized)
 
         begin
@@ -15,10 +15,10 @@ class RayTracer
 
           current_sphere = nil
           scene.objects.each do |sphere|
-            p = sphere.intersection?(ray, t)
-            if(p[0] == true)
+            intersection = sphere.intersection?(ray, t)
+            if intersection.successful?
               current_sphere = sphere
-              t = p[1]
+              t = intersection.t
             end
 
           end
@@ -45,10 +45,10 @@ class RayTracer
 
             in_shadow = false 
             scene.objects.each do |sphere|
-              p = current_sphere.intersection?(light_ray, t)
-              if(p[0] == true)
+              intersection = current_sphere.intersection?(light_ray, t)
+              if intersection.successful?
                 in_shadow = true
-                t = p[1]
+                t = intersection.t
               end
 
               break if in_shadow
@@ -56,9 +56,9 @@ class RayTracer
 
             unless in_shadow == true
               lambert = light_ray.direction.dot(intersection_normal) * coef
-              red   += lambert * light.color.r * current_sphere.material.diffuse.r
-              green += lambert * light.color.g * current_sphere.material.diffuse.g
-              blue  += lambert * light.color.b * current_sphere.material.diffuse.b
+              pixel.r += lambert * light.color.r * current_sphere.material.diffuse.r
+              pixel.g += lambert * light.color.g * current_sphere.material.diffuse.g
+              pixel.b += lambert * light.color.b * current_sphere.material.diffuse.b
 
 
               reflet = 2.0 * light_ray.direction.dot(intersection_normal)
@@ -66,9 +66,9 @@ class RayTracer
               phong_term = [phong_direction.dot(ray.direction), 0.0].max
               phong_term = 1.0 * phong_term**current_sphere.material.power * coef
 
-              red += phong_term * light.color.r
-              green += phong_term * light.color.g
-              blue += phong_term * light.color.b
+              pixel.r += phong_term * light.color.r
+              pixel.g += phong_term * light.color.g
+              pixel.b += phong_term * light.color.b
             end
           end
 
@@ -82,11 +82,8 @@ class RayTracer
 
         # puts "#{x}, #{y}  => #{red}, #{green}, #{blue}" 
 
-        red = [red, 1.0].min
-        green = [green, 1.0].min
-        blue = [blue, 1.0].min
 
-        image.set_pixel(x.to_i, y.to_i, red, green, blue)
+        image.set_pixel(x.to_i, y.to_i, pixel.r, pixel.g, pixel.b)
 
       end
     end

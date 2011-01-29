@@ -1,5 +1,3 @@
-require 'matrix'
-
 class Light
 
   attr_accessor :position, :color

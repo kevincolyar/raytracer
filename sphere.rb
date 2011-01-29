@@ -13,22 +13,22 @@ class Sphere
     b = ray.direction.dot(dist)
     d = b*b - dist.dot(dist) + @radius * @radius
 
-    return -1 if (d < 0.0) 
+    return Intersection.unsuccessful if (d < 0.0) 
 
     t0 = b - Math.sqrt(d) 
     t1 = b + Math.sqrt(d)
-    retvalue = false  
+    success = false  
 
     if ((t0 > 0.1) && (t0 < t)) 
         t = t0
-        retvalue = true
+        success = true
     end
     if ((t1 > 0.1) && (t1 < t)) 
         t = t1
-        retvalue = true
+        success = true
     end
 
-    return retvalue, t
+    return Intersection.new(t, success)
   end
 end
 
