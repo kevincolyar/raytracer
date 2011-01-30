@@ -1,6 +1,6 @@
 class RayTracer
 
-  def render(scene, image)
+  def render(scene, image, shaders)
 
     image.width.times do |x|
       image.height.times do |y|
@@ -55,20 +55,10 @@ class RayTracer
             end
 
             unless in_shadow == true
-              lambert = light_ray.direction.dot(intersection_normal) * coef
-              pixel.r += lambert * light.color.r * current_sphere.material.diffuse.r
-              pixel.g += lambert * light.color.g * current_sphere.material.diffuse.g
-              pixel.b += lambert * light.color.b * current_sphere.material.diffuse.b
+              shaders.each do |shader|
+                shader.shade(pixel, ray, light_ray, light, intersection_normal, current_sphere.material, coef)
+              end
 
-
-              reflet = 2.0 * light_ray.direction.dot(intersection_normal)
-              phong_direction = light_ray.direction - intersection_normal*reflet
-              phong_term = [phong_direction.dot(ray.direction), 0.0].max
-              phong_term = 1.0 * phong_term**current_sphere.material.power * coef
-
-              pixel.r += phong_term * light.color.r
-              pixel.g += phong_term * light.color.g
-              pixel.b += phong_term * light.color.b
             end
           end
 

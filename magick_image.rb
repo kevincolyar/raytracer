@@ -9,19 +9,14 @@ class MagickImage
   def initialize(width, height)
     @width = width
     @height = height
-
     @image = Image.new(width, height) { self.background_color = 'black' }
   end
 
-  def use
-    @image.view(0, 0, @width, @height) do |view|
-      @view = view
-      yield
-    end
-  end
-
   def set_pixel(x, y, red, green, blue)
-    @view[y][x] = Pixel.new(red*QuantumRange, green*QuantumRange, blue*QuantumRange)
+    draw = Draw.new
+    draw.fill = Pixel.new(red*QuantumRange, green*QuantumRange, blue*QuantumRange)
+    draw.point(x,y)
+    draw.draw(@image)
   end
 
   def write(filename)
