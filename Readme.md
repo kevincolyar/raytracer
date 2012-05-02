@@ -4,4 +4,4 @@ A ruby raytracer.
 Sample
 ======
 
-![Sample Image](http://github.com/user/repository/raw/master/sample.png)
+![Sample Image](https://github.com/kevincolyar/raytracer/raw/master/sample.png)
