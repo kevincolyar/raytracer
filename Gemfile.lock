@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rmagick (2.13.1)
+    ruby-prof (0.10.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rmagick
+  ruby-prof
